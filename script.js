@@ -4,7 +4,7 @@ const uppercaseEl = document.getElementById("uppercase")
 const lowercaseEl = document.getElementById("lowercase")
 const numbersEl = document.getElementById("numbers")
 const symbolsEl = document.getElementById("symbols")
-const gernerateEl = document.getElementById("gernerate")
+const generateEl = document.getElementById("generate")
 const clipboardEl = document.getElementById("clipboard")
 
 const randomFunc = {
@@ -14,20 +14,36 @@ const randomFunc = {
     symbol: getRandomSymbol
 }
 
+// GENERATE EVENT LISTEN
+generateEl.addEventListener("click", () => {
+    const length = +lengthEl.value;
+    const hasLower = lowercaseEl.checked;
+    const hasUpper = uppercaseEl.checked;
+    const hasNumber = numbersEl.checked;
+    const hasSymbol = symbolsEl.checked;
+
+    resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol)
+});
+
+// GENERATE PASSWORD FUNCTION
+function generatePassword(lower, upper, number, symbol, length) {
+
+}
+
 // GENERATOR FUNCTIONS
-// LOWER ALPHABET
+// lower Alphaber
 function getRandomLower() {
     return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 }
-// UPPER ALPHABET
+// Upper Alphaber
 function getRandomUpper() {
     return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
 }
-// NUMBERS
+// Numbers
 function getRandomNumber() {
     return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
 }
-// SYMBOLS
+// Symbols
 function getRandomSymbol() {
     const symbols = "!@#$%^&*(){}[]=<>/,."
     return symbols[Math.floor(Math.random() * symbols.length)];
