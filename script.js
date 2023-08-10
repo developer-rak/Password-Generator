@@ -27,7 +27,26 @@ generateEl.addEventListener("click", () => {
 
 // GENERATE PASSWORD FUNCTION
 function generatePassword(lower, upper, number, symbol, length) {
+    // Init Password var
+    let generatedPassword = "";
 
+    const typesCount = lower + upper + number + symbol;
+
+    console.log('typesCount: ', typesCount);
+
+    const typesArr = [{
+        lower
+    }, {
+        upper
+    }, {
+        number
+    }, {
+        symbol
+    }].filter(
+        item => Object.values(item)[0]
+    );
+
+    console.log('typesArr: ', typesArr);
 }
 
 // GENERATOR FUNCTIONS
