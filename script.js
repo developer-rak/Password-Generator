@@ -1,11 +1,11 @@
-const resultEl = document.getElementById("result")
-const lengthEl = document.getElementById("length")
-const uppercaseEl = document.getElementById("uppercase")
-const lowercaseEl = document.getElementById("lowercase")
-const numbersEl = document.getElementById("numbers")
-const symbolsEl = document.getElementById("symbols")
-const generateEl = document.getElementById("generate")
-const clipboardEl = document.getElementById("clipboard")
+const resultEl = document.getElementById('result');
+const lengthEl = document.getElementById('length');
+const uppercaseEl = document.getElementById('uppercase');
+const lowercaseEl = document.getElementById('lowercase');
+const numbersEl = document.getElementById('numbers');
+const symbolsEl = document.getElementById('symbols');
+const generateEl = document.getElementById('generate');
+const clipboard = document.getElementById('clipboard');
 
 const randomFunc = {
     lower: getRandomLower,
@@ -14,8 +14,24 @@ const randomFunc = {
     symbol: getRandomSymbol
 }
 
+clipboard.addEventListener('click', () => {
+    const textarea = document.createElement('textarea');
+    const password = resultEl.innerText;
+
+    if (!password) {
+        return;
+    }
+
+    textarea.value = password;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove()
+    alert('Password copied to clipboard');
+});
+
 // GENERATE EVENT LISTEN
-generateEl.addEventListener("click", () => {
+generateEl.addEventListener('click', () => {
     const length = +lengthEl.value;
     const hasLower = lowercaseEl.checked;
     const hasUpper = uppercaseEl.checked;
@@ -28,12 +44,8 @@ generateEl.addEventListener("click", () => {
 // GENERATE PASSWORD FUNCTION
 function generatePassword(lower, upper, number, symbol, length) {
     // Init Password var
-    let generatedPassword = "";
-
+    let generatedPassword = '';
     const typesCount = lower + upper + number + symbol;
-
-    console.log('typesCount: ', typesCount);
-
     const typesArr = [{
         lower
     }, {
@@ -42,19 +54,31 @@ function generatePassword(lower, upper, number, symbol, length) {
         number
     }, {
         symbol
-    }].filter(
-        item => Object.values(item)[0]
-    );
+    }].filter(item => Object.values(item)[0]);
 
-    console.log('typesArr: ', typesArr);
+    // Doesn't have a selected type
+    if (typesCount === 0) {
+        return '';
+    }
+
+    // create a loop
+    for (let i = 0; i < length; i += typesCount) {
+        typesArr.forEach(type => {
+            const funcName = Object.keys(type)[0];
+            generatedPassword += randomFunc[funcName]();
+        });
+    }
+
+    const finalPassword = generatedPassword.slice(0, length);
+    return finalPassword;
 }
 
-// GENERATOR FUNCTIONS
-// lower Alphaber
+// FUNCTIONS GENERATOR
+// lower Alphabet
 function getRandomLower() {
     return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 }
-// Upper Alphaber
+// Upper Alphabet
 function getRandomUpper() {
     return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
 }
@@ -67,8 +91,3 @@ function getRandomSymbol() {
     const symbols = "!@#$%^&*(){}[]=<>/,."
     return symbols[Math.floor(Math.random() * symbols.length)];
 }
-
-console.log(getRandomLower());
-console.log(getRandomUpper());
-console.log(getRandomNumber());
-console.log(getRandomSymbol());
