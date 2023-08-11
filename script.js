@@ -38,7 +38,7 @@ generateEl.addEventListener('click', () => {
     const hasNumber = numbersEl.checked;
     const hasSymbol = symbolsEl.checked;
 
-    resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol)
+    resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
 });
 
 // GENERATE PASSWORD FUNCTION
